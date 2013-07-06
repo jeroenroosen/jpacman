@@ -24,20 +24,6 @@
 
 	<developers>
 		<developer>
-			<id>arie</id>
-			<name>Arie van Deursen</name>
-			<email>arie.vanDeursen [AT] tudelft.nl</email>
-			<url>http://www.st.ewi.tudelft.nl/~arie/</url>
-			<organization>Software Engineering Research Group,
-			  Delft University of Technology, The Netherlands</organization>
-			<organizationUrl>http://www.se.ewi.tudelft.nl</organizationUrl>
-			<roles>
-				<role>Project Leader</role>
-				<role>Developer</role>
-			</roles>
-			<timezone>+1</timezone>
-		</developer>
-		<developer>
 			<id>jeroen</id>
 			<name>Jeroen roosen</name>
 			<email>j.roosen [AT] student.tudelft.nl</email>
@@ -71,26 +57,6 @@
 		<developerConnection>scm:git:git://github.com/jeroenroosen/jpacman.git</developerConnection>
 	</scm>
 
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>1.9.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.easytesting</groupId>
-			<artifactId>fest-swing-junit</artifactId>
-			<version>1.2.1</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -101,24 +67,6 @@
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<descriptors>
-						<descriptor>${basedir}/src-assembly.xml</descriptor>
-					</descriptors>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 
 			<plugin>
@@ -220,5 +168,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
