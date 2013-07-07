@@ -20,13 +20,13 @@ public interface LevelFactory {
 	 * @param board
 	 *            The board.
 	 * @param pacMan
-	 *            The Pac-Man on the board.
+	 *            The Pac-Mans on the board.
 	 * @param ghosts
 	 *            The ghosts on the board.
 	 * @param totalPellets
 	 *            The amount of pellets on the board.
 	 * @return A new level with the specified components.
 	 */
-	Level createLevel(Board board, PacMan pacMan, Collection<Ghost> ghosts,
+	Level createLevel(Board board, Collection<PacMan> pacMans, Collection<Ghost> ghosts,
 			int totalPellets);
 }

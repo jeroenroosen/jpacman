@@ -46,7 +46,6 @@ public class SpriteStore {
 		assert frames > 0;
 
 		int frameWidth = baseImage.getWidth() / frames;
-		System.out.println(baseImage.getWidth() + " - " + frameWidth);
 
 		Sprite[] animation = new Sprite[frames];
 		for (int i = 0; i < frames; i++) {

@@ -3,7 +3,6 @@ package nl.tudelft.jpacman.factory;
 import java.util.Collection;
 
 import nl.tudelft.jpacman.level.DefaultBoard;
-import nl.tudelft.jpacman.level.DefaultLevel;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.model.Board;
 import nl.tudelft.jpacman.model.Direction;
@@ -28,9 +27,9 @@ public class DefaultFactory implements BoardFactory, LevelFactory, CharacterFact
 	}
 
 	@Override
-	public Level createLevel(Board board, PacMan pacMan,
+	public Level createLevel(Board board, Collection<PacMan> pacMans,
 			Collection<Ghost> ghosts, int totalPellets) {
-		return new DefaultLevel(board, pacMan, ghosts, totalPellets);
+		return new Level(board, pacMans, ghosts, totalPellets);
 	}
 
 	@Override

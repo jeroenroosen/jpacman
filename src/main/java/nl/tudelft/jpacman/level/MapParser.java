@@ -158,7 +158,7 @@ public class MapParser {
 		FloorSquare square = emptySquare();
 		PacMan pacMan = getCharacterFactory().createPacMan(DEFAULT_DIRECTION);
 		square.addOccupant(pacMan);
-		builder.withPacMan(pacMan);
+		builder.addPacMan(pacMan);
 		return square;
 	}
 
@@ -238,31 +238,31 @@ public class MapParser {
 	 */
 	protected class LevelBuilder {
 
-		private PacMan pacMan;
+		private Collection<PacMan> pacMans;
 		private Collection<Ghost> ghosts;
 		private Board board;
-		private int pellets;
+		private int pelletCount;
 
 		/**
 		 * Creates a new level builder.
 		 */
 		protected LevelBuilder() {
 			ghosts = new ArrayList<>();
-			pellets = 0;
+			pacMans = new ArrayList<>();
+			pelletCount = 0;
 		}
 
 		/**
-		 * Adds Pac-Man to this level. This method should be called once.
+		 * Adds a Pac-Man to this level.
 		 * 
 		 * @param pacMan
 		 *            the Pac-Man to add to this Level.
 		 * @return The builder for fluency.
 		 */
-		protected LevelBuilder withPacMan(PacMan pacMan) {
-			assert this.pacMan == null;
+		protected LevelBuilder addPacMan(PacMan pacMan) {
 			assert pacMan != null;
 
-			this.pacMan = pacMan;
+			pacMans.add(pacMan);
 			return this;
 		}
 
@@ -300,13 +300,12 @@ public class MapParser {
 		 * @return The builder for fluency.
 		 */
 		protected LevelBuilder addPellet() {
-			pellets++;
+			pelletCount++;
 			return this;
 		}
 
 		/**
-		 * Builds the level. Note that there should be at least a Pac-Man on the
-		 * board.
+		 * Builds the level.
 		 * 
 		 * @param factory
 		 *            The factory to build the level with.
@@ -314,8 +313,7 @@ public class MapParser {
 		 */
 		protected Level build(LevelFactory factory) {
 			assert board != null;
-			assert pacMan != null;
-			return factory.createLevel(board, pacMan, ghosts, pellets);
+			return factory.createLevel(board, pacMans, ghosts, pelletCount);
 		}
 	}
 }

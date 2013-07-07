@@ -83,13 +83,14 @@ public class ClassicBoardRenderer implements BoardRenderer {
 	private void renderSquareOccupant(Graphics g, Character occupant, int x,
 			int y) {
 		if (occupant != null) {
-			if (occupant instanceof PacMan) {
+			if (occupant instanceof PacMan && ((PacMan) occupant).isAlive()) {
 				spriteStore.getPacmanSprite(occupant.getDirection()).draw(g, x,
 						y, SQUARE_WIDTH, SQUARE_HEIGHT);
 			} else if (occupant instanceof Ghost) {
 				Ghost ghost = (Ghost) occupant;
 				spriteStore.getGhostSprite(ghost.getColour(),
-						ghost.getDirection()).draw(g, x, y, SQUARE_WIDTH, SQUARE_HEIGHT);
+						ghost.getDirection()).draw(g, x, y, SQUARE_WIDTH,
+						SQUARE_HEIGHT);
 			}
 		}
 	}

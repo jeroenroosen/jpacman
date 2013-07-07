@@ -7,6 +7,8 @@ package nl.tudelft.jpacman.model;
  */
 public class PacMan extends Character {
 
+	private boolean alive;
+
 	/**
 	 * Creates a new PacMan.
 	 * 
@@ -15,6 +17,16 @@ public class PacMan extends Character {
 	 */
 	public PacMan(Direction direction) {
 		super(direction);
+		alive = true;
 	}
 
+	/**
+	 * Returns whether this Pac-Man is alive.
+	 * 
+	 * @return <code>true</code> if Pac-Man is alive, or <code>false</code> if
+	 *         he is dead.
+	 */
+	public boolean isAlive() {
+		return alive;
+	}
 }
