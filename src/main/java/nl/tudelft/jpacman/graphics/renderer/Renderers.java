@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * A proxy for multiple {@link Renderer}s. The proxy will be able to render any
  * object as long as it has a registered Renderer for its class type.
@@ -29,22 +28,22 @@ public class Renderers {
 	 * 
 	 * @see Renderer#render(Object, Graphics, Dimension)
 	 */
-	@SuppressWarnings("unchecked")
 	public <T> void render(T subject, Graphics g, Dimension dim) {
 		assert subject != null;
 		assert g != null;
 		assert dim != null;
 
-		Class<T> clazz = (Class<T>) subject.getClass();
-		Renderer<T> renderer = getRenderer(clazz);
-		if (renderer != null) {
-			renderer.render(subject, g, dim);
-		}
+		Renderer<T> renderer = getRendererFor(subject);
+		renderer.render(subject, g, dim);
 	}
 
 	@SuppressWarnings("unchecked")
-	private <T> Renderer<T> getRenderer(Class<T> type) {
-		return (Renderer<T>) renderers.get(type);
+	private <T> Renderer<T> getRendererFor(T subject) {
+		Renderer<T> renderer = (Renderer<T>) renderers.get(subject.getClass());
+		if (renderer == null) {
+			throw new MissingRendererException(subject);
+		}
+		return renderer;
 	}
 
 	/**
@@ -59,4 +58,25 @@ public class Renderers {
 		renderers.put(type, renderer);
 	}
 
+	/**
+	 * Unchecked exception thrown when no renderer was registered for an object
+	 * type.
+	 * 
+	 * @author Jeroen Roosen
+	 */
+	public class MissingRendererException extends RuntimeException {
+
+		private static final long serialVersionUID = 6699942784097151097L;
+
+		/**
+		 * Creates a new RuntimeException with a message detailing the lack of a
+		 * renderer for the specified subject's class.
+		 * 
+		 * @param subject
+		 *            The subject that didn't have a renderer for its type.
+		 */
+		public MissingRendererException(Object subject) {
+			super("No render registered for type " + subject.getClass());
+		}
+	}
 }
