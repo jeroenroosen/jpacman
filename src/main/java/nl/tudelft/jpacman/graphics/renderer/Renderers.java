@@ -64,7 +64,7 @@ public class Renderers {
 	 * 
 	 * @author Jeroen Roosen
 	 */
-	public class MissingRendererException extends RuntimeException {
+	public static class MissingRendererException extends RuntimeException {
 
 		private static final long serialVersionUID = 6699942784097151097L;
 
