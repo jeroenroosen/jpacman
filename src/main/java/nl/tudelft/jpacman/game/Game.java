@@ -79,8 +79,7 @@ public class Game {
 	 */
 	public void movePacMan(PacMan pacMan, Direction direction) {
 		if (isInProgress()) {
-			Level level = getLevel();
-			level.move(pacMan, Direction.NORTH);
+			level.move(pacMan, direction);
 
 			// TODO calculate match state
 

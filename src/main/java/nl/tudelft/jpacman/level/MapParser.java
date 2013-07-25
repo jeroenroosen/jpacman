@@ -76,19 +76,49 @@ public class MapParser {
 			}
 		}
 		Board board = boardFactory.createBoard(grid);
+		connectGraph(board);
+		
 		return builder.withBoard(board).build(levelFactory);
+	}
+	
+	private void connectGraph(Board board) {
+		int w = board.getWidth();
+		int h = board.getHeight();
+		
+		for (int x = 0; x < w; x++) {
+			for (int y = 0; y < h; y++) {
+				Square node = board.getSquareAt(x, y);
+				for (Direction d : Direction.values()) {
+					Square neighbour = relativeSquare(x, y, board, d);
+					node.addNeighbour(neighbour, d);
+				}
+			}
+		}
+	}
+	
+	private Square relativeSquare(int x, int y, Board board, Direction d) {
+		int w = board.getWidth();
+		int h = board.getHeight();
+		
+		int newX = (w + x + d.getDeltaX()) % w;
+		int newY = (h + y + d.getDeltaY()) % h;
+		
+		return board.getSquareAt(newX, newY);
 	}
 
 	private void enforceWidth(int width, int y, char[] row)
 			throws MapParserException {
 		if (row.length != width) {
-			throw new MapParserException("Encountered a row with an unexpected amount of cells at row " + y);
+			throw new MapParserException(
+					"Encountered a row with an unexpected amount of cells at row "
+							+ y);
 		}
 	}
 
 	private void enforceHeight(int height) throws MapParserException {
 		if (height == 0) {
-			throw new MapParserException("Unable to create a level for an empty map.");
+			throw new MapParserException(
+					"Unable to create a level for an empty map.");
 		}
 	}
 
@@ -157,7 +187,7 @@ public class MapParser {
 	private Square pacManSquare(LevelBuilder builder) {
 		FloorSquare square = emptySquare();
 		PacMan pacMan = getCharacterFactory().createPacMan(DEFAULT_DIRECTION);
-		square.addOccupant(pacMan);
+		pacMan.occupy(square);
 		builder.addPacMan(pacMan);
 		return square;
 	}
@@ -166,7 +196,7 @@ public class MapParser {
 		FloorSquare square = emptySquare();
 		Ghost ghost = characterFactory.createGhost(nextGhostColour(),
 				DEFAULT_DIRECTION);
-		square.addOccupant(ghost);
+		ghost.occupy(square);
 		builder.addGhost(ghost);
 		return square;
 	}

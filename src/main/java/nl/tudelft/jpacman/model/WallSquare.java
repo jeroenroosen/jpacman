@@ -5,7 +5,14 @@ package nl.tudelft.jpacman.model;
  * 
  * @author Jeroen Roosen
  */
-public class WallSquare implements Square {
+public class WallSquare extends Square {
+
+	/**
+	 * Constructs a new Wall Square.
+	 */
+	public WallSquare() {
+		super();
+	}
 
 	@Override
 	public boolean isAccessibleTo(Character character) {

@@ -109,7 +109,7 @@ public class PacManUI {
 		frame.setVisible(true);
 		frame.pack();
 
-		
+		game.start();
 		startGame();
 	}
 
