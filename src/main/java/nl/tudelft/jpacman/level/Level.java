@@ -7,11 +7,13 @@ import nl.tudelft.jpacman.model.Character;
 import nl.tudelft.jpacman.model.Direction;
 import nl.tudelft.jpacman.model.Ghost;
 import nl.tudelft.jpacman.model.PacMan;
+import nl.tudelft.jpacman.model.Pellet;
 import nl.tudelft.jpacman.model.Square;
 
 /**
  * A higher level accessor for {@link Board} which keeps references to Pac-Man
- * and the ghosts.
+ * and the ghosts. Level also moves the various actors and elements on the board
+ * and handles their collisions.
  * 
  * @author Jeroen Roosen
  */
@@ -79,7 +81,7 @@ public class Level {
 	public int getTotalPellets() {
 		return totalPellets;
 	}
-	
+
 	/**
 	 * Returns the amount of pellets that have been consumed already.
 	 * 
@@ -102,12 +104,40 @@ public class Level {
 	public void move(Character character, Direction direction) {
 		Square square = character.getSquare();
 		Square destination = square.squareAt(direction);
-		
-		character.occupy(destination);
-		character.setDirection(direction);
 
-		// TODO pellet
-		// TODO collisions?
+		character.setDirection(direction);
+		character.occupy(destination);
+
+		if (isPacMan(character)) {
+			consumePellet(destination);
+		}
+		
+		boolean p = false;
+		boolean g = false;
+		for (Character c : destination.getOccupants()) {
+			if (isPacMan(c)) {
+				p = true;
+			}
+			if (c instanceof Ghost) {
+				g = true;
+			}
+			if (p && g) {
+				PacMan pac = (PacMan) c;
+				pac.setAlive(false);
+			}
+		}
+	}
+
+	private void consumePellet(Square destination) {
+		Pellet pellet = destination.getPellet();
+		if (pellet != null) {
+			destination.removePellet();
+			pelletsConsumed++;
+		}
+	}
+
+	private boolean isPacMan(Character character) {
+		return character instanceof PacMan;
 	}
 
 	/**

@@ -90,8 +90,9 @@ public class Game {
 		if (isInProgress()) {
 			level.move(pacMan, direction);
 
-			// TODO calculate match state
-
+			if (level.lost() || level.completed()) {
+				stop();
+			}
 		}
 	}
 }

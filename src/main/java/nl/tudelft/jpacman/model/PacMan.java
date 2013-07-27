@@ -29,4 +29,15 @@ public class PacMan extends Character {
 	public boolean isAlive() {
 		return alive;
 	}
+
+	/**
+	 * Sets the <code>alive</code> flag for this Pac-Man.
+	 * 
+	 * @param alive
+	 *            <code>true</code> if Pac-Man is alive, or <code>false</code>
+	 *            if he is dead.
+	 */
+	public void setAlive(boolean alive) {
+		this.alive = alive;
+	}
 }
