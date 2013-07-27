@@ -40,8 +40,7 @@ public class FloorRenderer implements Renderer<FloorSquare> {
 			renderers.render(pellet, g, dim);
 		}
 
-		Character character = square.getTopLevelOccupant();
-		if (character != null) {
+		for (Character character : square.getOccupants()) {
 			renderers.render(character, g, dim);
 		}
 	}

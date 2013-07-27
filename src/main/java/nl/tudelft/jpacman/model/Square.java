@@ -1,9 +1,11 @@
 package nl.tudelft.jpacman.model;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -68,10 +70,12 @@ public abstract class Square {
 	}
 
 	/**
-	 * @return The top most occupying {@link Character} on this Square.
+	 * @return An new ordered list of the occupants on this Square, starting
+	 *         with the Character that occupied it first and ending with the
+	 *         Character that occupied it last.
 	 */
-	public Character getTopLevelOccupant() {
-		return this.occupants.peekLast();
+	public List<Character> getOccupants() {
+		return new ArrayList<>(occupants);
 	}
 
 	/**
