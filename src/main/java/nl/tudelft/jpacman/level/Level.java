@@ -58,7 +58,7 @@ public class Level {
 	 * 
 	 * @return The ghosts on this level.
 	 */
-	public Collection<Ghost> getGhost() {
+	public Collection<Ghost> getGhosts() {
 		return ghosts;
 	}
 
