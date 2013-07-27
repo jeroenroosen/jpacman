@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 
 import nl.tudelft.jpacman.factory.DefaultFactory;
+import nl.tudelft.jpacman.game.RandomGhostController;
 import nl.tudelft.jpacman.game.SinglePlayerGame;
 import nl.tudelft.jpacman.graphics.renderer.ClassicBoardRenderer;
 import nl.tudelft.jpacman.graphics.renderer.FloorRenderer;
@@ -63,7 +64,7 @@ public class PacManUI {
 
 		// make game / link keys
 
-		final SinglePlayerGame game = new SinglePlayerGame(level);
+		final SinglePlayerGame game = new SinglePlayerGame(level, new RandomGhostController(level));
 		KeyListener keyListener = new KeyListener() {
 
 			@Override

@@ -29,8 +29,8 @@ public class SinglePlayerGame extends Game {
 	 * @param level
 	 *            A level with at least 1 Pac-Man on the board.
 	 */
-	public SinglePlayerGame(Level level) {
-		super(level);
+	public SinglePlayerGame(Level level, GhostController ghostController) {
+		super(level, ghostController);
 		Collection<PacMan> pacMans = level.getPacMans();
 		assert pacMans.size() == 1;
 		pacMan = pacMans.iterator().next();

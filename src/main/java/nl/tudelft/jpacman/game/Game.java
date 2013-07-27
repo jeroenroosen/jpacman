@@ -13,6 +13,7 @@ import nl.tudelft.jpacman.model.PacMan;
 public class Game {
 
 	private final Level level;
+	private final GhostController ghostController;
 
 	private boolean inProgress;
 
@@ -21,9 +22,15 @@ public class Game {
 	 * 
 	 * @param level
 	 *            The level for this game.
+	 * @param ghostController
+	 *            The controller moving the ghosts on the level around.
 	 */
-	public Game(Level level) {
+	public Game(Level level, GhostController ghostController) {
+		assert level != null;
+		assert ghostController != null;
+		
 		this.level = level;
+		this.ghostController = ghostController;
 		this.inProgress = false;
 	}
 
@@ -31,6 +38,7 @@ public class Game {
 	 * Starts or resumes this game.
 	 */
 	public void start() {
+		ghostController.start();
 		inProgress = true;
 	}
 
@@ -38,6 +46,7 @@ public class Game {
 	 * Stops or pauses this game.
 	 */
 	public void stop() {
+		ghostController.stop();
 		inProgress = false;
 	}
 
