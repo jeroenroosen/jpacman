@@ -18,16 +18,32 @@ import java.util.Set;
  */
 public abstract class Square {
 
-	private Pellet pellet;
 	private final Deque<Character> occupants;
-	private Map<Direction, Square> edges;
+	private final Map<Direction, Square> edges;
+
+	private Pellet pellet;
 
 	/**
 	 * Creates a new, empty square.
 	 */
-	protected Square() {
+	public Square() {
 		this.occupants = new ArrayDeque<>();
 		this.edges = new HashMap<>();
+	}
+
+	/**
+	 * Once a character occupies this square, the character should indeed have
+	 * this square as its base.
+	 * 
+	 * @return <code>true</code> iff this invariant holds.
+	 */
+	protected boolean invariant() {
+		for (Character occupant : occupants) {
+			if (occupant.getSquare() != this) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -45,8 +61,11 @@ public abstract class Square {
 	}
 
 	/**
+	 * Sets the new pellet for this square. To remove a pellet, use
+	 * {@link #removePellet()}.
 	 * 
 	 * @param pellet
+	 *            The new pellet for this square.
 	 */
 	public void setPellet(Pellet pellet) {
 		assert pellet != null;

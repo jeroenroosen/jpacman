@@ -95,6 +95,8 @@ public class Level {
 	 *            The direction to move the character in.
 	 */
 	public void move(Character character, Direction direction) {
+		assert character != null;
+		
 		Square square = character.getSquare();
 		Square destination = square.squareAt(direction);
 

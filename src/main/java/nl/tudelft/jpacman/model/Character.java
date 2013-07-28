@@ -18,6 +18,17 @@ public abstract class Character {
 	 */
 	public Character(Direction direction) {
 		this.direction = direction;
+		assert invariant();
+	}
+
+	/**
+	 * Once this character occupies a square, the square should indeed list this
+	 * character as an occupant.
+	 * 
+	 * @return <code>true</code> iff this invariant holds.
+	 */
+	protected boolean invariant() {
+		return square == null || square.getOccupants().contains(this);
 	}
 
 	/**
@@ -56,6 +67,7 @@ public abstract class Character {
 			destinationSquare.addOccupant(this);
 			square = destinationSquare;
 		}
+		assert invariant();
 	}
 
 	/**
