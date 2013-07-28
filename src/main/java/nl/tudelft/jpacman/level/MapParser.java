@@ -168,6 +168,7 @@ public class MapParser {
 	private GhostColour nextGhostColour() {
 		GhostColour colour = GHOST_ORDER[ghostIndex];
 		ghostIndex++;
+		ghostIndex %= GHOST_ORDER.length;
 		return colour;
 	}
 
