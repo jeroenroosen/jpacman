@@ -28,8 +28,8 @@ public class DefaultFactory implements BoardFactory, LevelFactory, CharacterFact
 
 	@Override
 	public Level createLevel(Board board, Collection<PacMan> pacMans,
-			Collection<Ghost> ghosts, int totalPellets) {
-		return new Level(board, pacMans, ghosts, totalPellets);
+			Collection<Ghost> ghosts) {
+		return new Level(board, pacMans, ghosts);
 	}
 
 	@Override

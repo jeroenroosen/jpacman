@@ -22,7 +22,6 @@ public class Level {
 	private final Board board;
 	private final Collection<PacMan> pacMan;
 	private final Collection<Ghost> ghosts;
-	private final int totalPellets;
 
 	/**
 	 * Create a new level.
@@ -33,15 +32,12 @@ public class Level {
 	 *            The Pac-Mans on the board.
 	 * @param ghosts
 	 *            The ghosts on the board.
-	 * @param totalPellets
-	 *            The amount of pellets on the board.
 	 */
 	public Level(Board board, Collection<PacMan> pacMan,
-			Collection<Ghost> ghosts, int totalPellets) {
+			Collection<Ghost> ghosts) {
 		this.board = board;
 		this.pacMan = pacMan;
 		this.ghosts = ghosts;
-		this.totalPellets = totalPellets;
 	}
 
 	/**
@@ -69,15 +65,6 @@ public class Level {
 	 */
 	public Board getBoard() {
 		return board;
-	}
-
-	/**
-	 * Returns the total number of pellets on the board.
-	 * 
-	 * @return the total number of pellets on the board.
-	 */
-	public int getTotalPellets() {
-		return totalPellets;
 	}
 
 	/**

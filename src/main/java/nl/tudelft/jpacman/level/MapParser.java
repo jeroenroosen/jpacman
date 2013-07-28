@@ -176,7 +176,6 @@ public class MapParser {
 		FloorSquare square = emptySquare();
 		Pellet pellet = getBoardFactory().createPellet();
 		square.setPellet(pellet);
-		builder.addPellet();
 		return square;
 	}
 
@@ -272,7 +271,6 @@ public class MapParser {
 		private Collection<PacMan> pacMans;
 		private Collection<Ghost> ghosts;
 		private Board board;
-		private int pelletCount;
 
 		/**
 		 * Creates a new level builder.
@@ -280,7 +278,6 @@ public class MapParser {
 		protected LevelBuilder() {
 			ghosts = new ArrayList<>();
 			pacMans = new ArrayList<>();
-			pelletCount = 0;
 		}
 
 		/**
@@ -326,16 +323,6 @@ public class MapParser {
 		}
 
 		/**
-		 * Adds a pellet to the level.
-		 * 
-		 * @return The builder for fluency.
-		 */
-		protected LevelBuilder addPellet() {
-			pelletCount++;
-			return this;
-		}
-
-		/**
 		 * Builds the level.
 		 * 
 		 * @param factory
@@ -344,7 +331,7 @@ public class MapParser {
 		 */
 		protected Level build(LevelFactory factory) {
 			assert board != null;
-			return factory.createLevel(board, pacMans, ghosts, pelletCount);
+			return factory.createLevel(board, pacMans, ghosts);
 		}
 	}
 }
