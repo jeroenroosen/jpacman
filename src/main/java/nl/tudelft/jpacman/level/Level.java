@@ -24,8 +24,6 @@ public class Level {
 	private final Collection<Ghost> ghosts;
 	private final int totalPellets;
 
-	private int pelletsConsumed;
-
 	/**
 	 * Create a new level.
 	 * 
@@ -83,12 +81,20 @@ public class Level {
 	}
 
 	/**
-	 * Returns the amount of pellets that have been consumed already.
+	 * Counts the remaining pellets on the board and returns the amount.
 	 * 
-	 * @return The amount of pellets that have been consumed.
+	 * @return The amount of pellets left on the board.
 	 */
-	public int getPelletsConsumed() {
-		return pelletsConsumed;
+	public int remainingPellets() {
+		int remaining = 0;
+		for (int x = 0; x < board.getWidth(); x++) {
+			for (int y = 0; y < board.getHeight(); y++) {
+				if (board.getSquareAt(x, y).getPellet() != null) {
+					remaining++;
+				}
+			}
+		}
+		return remaining;
 	}
 
 	/**
@@ -114,7 +120,10 @@ public class Level {
 
 	private void handlePellet(Character character, Square destination) {
 		if (isPacMan(character)) {
-			consumePellet(destination);
+			Pellet pellet = destination.getPellet();
+			if (pellet != null) {
+				destination.removePellet();
+			}
 		}
 	}
 
@@ -139,27 +148,19 @@ public class Level {
 		pac.setAlive(false);
 	}
 
-	private void consumePellet(Square destination) {
-		Pellet pellet = destination.getPellet();
-		if (pellet != null) {
-			destination.removePellet();
-			pelletsConsumed++;
-		}
-	}
-
 	private boolean isPacMan(Character character) {
 		return character instanceof PacMan;
 	}
 
 	/**
 	 * Returns whether this level has been completed, i.e. all pellets on the
-	 * board have been consumed.
+	 * board have been consumed and at least 1 PacMan is still alive.
 	 * 
 	 * @return <code>true</code> iff all pellets on the board have been
-	 *         consumed.
+	 *         consumed and the game is not {@link #lost()}.
 	 */
 	public boolean completed() {
-		return getTotalPellets() - getPelletsConsumed() == 0;
+		return remainingPellets() == 0 && !lost();
 	}
 
 	/**
