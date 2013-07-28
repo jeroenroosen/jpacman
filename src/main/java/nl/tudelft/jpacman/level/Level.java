@@ -19,25 +19,36 @@ import nl.tudelft.jpacman.model.Square;
  */
 public class Level {
 
-	private final Board board;
-	private final Collection<PacMan> pacMan;
-	private final Collection<Ghost> ghosts;
+	/**
+	 * The board model represented by this level.
+	 */
+	private final Board gameBoard;
+
+	/**
+	 * The collection of Pac-Mans on the board.
+	 */
+	private final Collection<PacMan> playerCollection;
+
+	/**
+	 * The collection of Ghosts on the board.
+	 */
+	private final Collection<Ghost> ghostCollection;
 
 	/**
 	 * Create a new level.
 	 * 
 	 * @param board
 	 *            The board.
-	 * @param pacMan
+	 * @param pacMans
 	 *            The Pac-Mans on the board.
 	 * @param ghosts
 	 *            The ghosts on the board.
 	 */
-	public Level(Board board, Collection<PacMan> pacMan,
+	public Level(Board board, Collection<PacMan> pacMans,
 			Collection<Ghost> ghosts) {
-		this.board = board;
-		this.pacMan = pacMan;
-		this.ghosts = ghosts;
+		this.gameBoard = board;
+		this.playerCollection = pacMans;
+		this.ghostCollection = ghosts;
 	}
 
 	/**
@@ -46,7 +57,7 @@ public class Level {
 	 * @return The Pac-Mans on this level.
 	 */
 	public Collection<PacMan> getPacMans() {
-		return pacMan;
+		return playerCollection;
 	}
 
 	/**
@@ -55,7 +66,7 @@ public class Level {
 	 * @return The ghosts on this level.
 	 */
 	public Collection<Ghost> getGhosts() {
-		return ghosts;
+		return ghostCollection;
 	}
 
 	/**
@@ -64,7 +75,7 @@ public class Level {
 	 * @return The board of this level.
 	 */
 	public Board getBoard() {
-		return board;
+		return gameBoard;
 	}
 
 	/**
@@ -74,9 +85,9 @@ public class Level {
 	 */
 	public int remainingPellets() {
 		int remaining = 0;
-		for (int x = 0; x < board.getWidth(); x++) {
-			for (int y = 0; y < board.getHeight(); y++) {
-				if (board.getSquareAt(x, y).getPellet() != null) {
+		for (int x = 0; x < gameBoard.getWidth(); x++) {
+			for (int y = 0; y < gameBoard.getHeight(); y++) {
+				if (gameBoard.getSquareAt(x, y).getPellet() != null) {
 					remaining++;
 				}
 			}
@@ -96,7 +107,7 @@ public class Level {
 	 */
 	public void move(Character character, Direction direction) {
 		assert character != null;
-		
+
 		Square square = character.getSquare();
 		Square destination = square.squareAt(direction);
 
@@ -107,6 +118,15 @@ public class Level {
 		handleCollisions(destination);
 	}
 
+	/**
+	 * Checks whether a pellet is present on the destination square and, if so,
+	 * consumes it.
+	 * 
+	 * @param character
+	 *            The character to consume the pellet.
+	 * @param destination
+	 *            The square that may or may not contain a pellet.
+	 */
 	private void handlePellet(Character character, Square destination) {
 		if (isPacMan(character)) {
 			Pellet pellet = destination.getPellet();
@@ -116,6 +136,12 @@ public class Level {
 		}
 	}
 
+	/**
+	 * Checks whether Pac-Man collided with ghosts.
+	 * 
+	 * @param destination
+	 *            The square to check for collisions.
+	 */
 	private void handleCollisions(Square destination) {
 		boolean pacManPresent = false;
 		boolean ghostPresent = false;
@@ -133,10 +159,23 @@ public class Level {
 		}
 	}
 
+	/**
+	 * Kills Pac-Man.
+	 * 
+	 * @param pac
+	 *            The Pac-Man to kill.
+	 */
 	private void killPacMan(PacMan pac) {
 		pac.setAlive(false);
 	}
 
+	/**
+	 * Checks whether a character is a Pac-Man.
+	 * 
+	 * @param character
+	 *            The character to check.
+	 * @return <code>true</code> iff the character is a Pac-Man.
+	 */
 	private boolean isPacMan(Character character) {
 		return character instanceof PacMan;
 	}
@@ -145,8 +184,8 @@ public class Level {
 	 * Returns whether this level has been completed, i.e. all pellets on the
 	 * board have been consumed and at least 1 PacMan is still alive.
 	 * 
-	 * @return <code>true</code> iff all pellets on the board have been
-	 *         consumed and the game is not {@link #lost()}.
+	 * @return <code>true</code> iff all pellets on the board have been consumed
+	 *         and the game is not {@link #lost()}.
 	 */
 	public boolean completed() {
 		return remainingPellets() == 0 && !lost();
@@ -159,7 +198,7 @@ public class Level {
 	 * @return <code>true</code> iff all Pac-Mans on the board are dead.
 	 */
 	public boolean lost() {
-		for (PacMan pac : pacMan) {
+		for (PacMan pac : playerCollection) {
 			if (pac.isAlive()) {
 				return false;
 			}

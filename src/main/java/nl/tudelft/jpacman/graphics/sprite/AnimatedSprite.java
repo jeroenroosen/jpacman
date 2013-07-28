@@ -2,16 +2,47 @@ package nl.tudelft.jpacman.graphics.sprite;
 
 import java.awt.Graphics;
 
+/**
+ * Animated sprite, renders the frame depending on the time of requesting the
+ * draw.
+ * 
+ * @author Jeroen Roosen
+ */
 public class AnimatedSprite implements Sprite {
-	
+
+	/**
+	 * Static empty sprite to serve as the end of a non-looping sprite.
+	 */
 	private static final Sprite END_OF_LOOP = new EmptySprite();
 
-	private final Sprite[] frames;
-	private final int delay;
-	private final boolean loop;
-	
+	/**
+	 * The animation itself, in frames.
+	 */
+	private final Sprite[] animationFrames;
+
+	/**
+	 * The delay between frames.
+	 */
+	private final int animationDelay;
+
+	/**
+	 * Whether is animation should be looping or not.
+	 */
+	private final boolean looping;
+
+	/**
+	 * The index of the current frame.
+	 */
 	private int current;
+
+	/**
+	 * Whether this sprite is currently animating or not.
+	 */
 	private boolean animating;
+
+	/**
+	 * The {@link System#currentTimeMillis()} stamp of the last update.
+	 */
 	private long lastUpdate;
 
 	/**
@@ -38,38 +69,41 @@ public class AnimatedSprite implements Sprite {
 	 *            The delay between frames.
 	 * @param loop
 	 *            Whether or not this sprite should be looping.
-	 * @param animating
+	 * @param isAnimating
 	 *            Whether or not this sprite is animating from the start.
 	 */
 	public AnimatedSprite(Sprite[] frames, int delay, boolean loop,
-			boolean animating) {
+			boolean isAnimating) {
 		assert frames.length > 0;
-		
-		this.frames = frames;
-		this.delay = delay;
-		this.loop = loop;
-		this.animating = animating;
-		
+
+		this.animationFrames = frames;
+		this.animationDelay = delay;
+		this.looping = loop;
+		this.animating = isAnimating;
+
 		this.current = 0;
 		this.lastUpdate = System.currentTimeMillis();
 	}
 
+	/**
+	 * @return The frame of the current index.
+	 */
 	private Sprite currentSprite() {
-		if (current < frames.length) {
-			return frames[current];
+		if (current < animationFrames.length) {
+			return animationFrames[current];
 		}
 		return END_OF_LOOP;
 	}
-	
+
 	/**
 	 * Starts or stops the animation of this sprite.
 	 * 
-	 * @param animating
+	 * @param isAnimating
 	 *            <code>true</code> to animate this sprite or <code>false</code>
 	 *            to stop animating this sprite.
 	 */
-	public void setAnimating(boolean animating) {
-		this.animating = animating;
+	public void setAnimating(boolean isAnimating) {
+		this.animating = isAnimating;
 	}
 
 	@Override
@@ -84,14 +118,17 @@ public class AnimatedSprite implements Sprite {
 		return currentSprite().split(x, y, width, height);
 	}
 
+	/**
+	 * Updates the current frame index depending on the current system time.
+	 */
 	private void update() {
 		long now = System.currentTimeMillis();
 		if (animating) {
 			while (lastUpdate < now) {
-				lastUpdate += delay;
+				lastUpdate += animationDelay;
 				current++;
-				if (loop) {
-					current %= frames.length;
+				if (looping) {
+					current %= animationFrames.length;
 				}
 			}
 		} else {

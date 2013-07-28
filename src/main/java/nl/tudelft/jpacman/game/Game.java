@@ -12,9 +12,19 @@ import nl.tudelft.jpacman.model.PacMan;
  */
 public class Game {
 
-	private final Level level;
-	private final GhostController ghostController;
+	/**
+	 * The level that will be played during this level.
+	 */
+	private final Level currentLevel;
 
+	/**
+	 * The controller that manages the ghosts' movements.
+	 */
+	private final GhostController ghostAI;
+
+	/**
+	 * Whether this game is currently in progress.
+	 */
 	private boolean inProgress;
 
 	/**
@@ -28,9 +38,9 @@ public class Game {
 	public Game(Level level, GhostController ghostController) {
 		assert level != null;
 		assert ghostController != null;
-		
-		this.level = level;
-		this.ghostController = ghostController;
+
+		this.currentLevel = level;
+		this.ghostAI = ghostController;
 		this.inProgress = false;
 	}
 
@@ -38,7 +48,7 @@ public class Game {
 	 * Starts or resumes this game.
 	 */
 	public void start() {
-		ghostController.start();
+		ghostAI.start();
 		inProgress = true;
 	}
 
@@ -46,7 +56,7 @@ public class Game {
 	 * Stops or pauses this game.
 	 */
 	public void stop() {
-		ghostController.stop();
+		ghostAI.stop();
 		inProgress = false;
 	}
 
@@ -56,7 +66,7 @@ public class Game {
 	 * @return The level being played.
 	 */
 	public Level getLevel() {
-		return level;
+		return currentLevel;
 	}
 
 	/**
@@ -79,9 +89,9 @@ public class Game {
 	 */
 	public void movePacMan(PacMan pacMan, Direction direction) {
 		if (isInProgress()) {
-			level.move(pacMan, direction);
+			currentLevel.move(pacMan, direction);
 
-			if (level.lost() || level.completed()) {
+			if (currentLevel.lost() || currentLevel.completed()) {
 				stop();
 			}
 		}

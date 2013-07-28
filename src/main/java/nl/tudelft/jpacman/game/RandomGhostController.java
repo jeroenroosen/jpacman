@@ -19,11 +19,25 @@ import nl.tudelft.jpacman.model.Ghost;
  */
 public class RandomGhostController implements GhostController {
 
+	/**
+	 * Delay between two subsequent ghost moves in milliseconds.
+	 */
 	private static final int MOVE_DELAY = 100;
 
-	private final Level level;
+	/**
+	 * The level to manipulate.
+	 */
+	private final Level currentLevel;
+
+	/**
+	 * The service that will schedule and execute the moves.
+	 */
 	private final ScheduledExecutorService scheduler;
 
+	/**
+	 * The task executed by the service that can be cancelled when no longer
+	 * needed.
+	 */
 	private ScheduledFuture<?> task;
 
 	/**
@@ -33,7 +47,7 @@ public class RandomGhostController implements GhostController {
 	 *            The level containing a board and the ghosts to move around.
 	 */
 	public RandomGhostController(Level level) {
-		this.level = level;
+		this.currentLevel = level;
 		this.scheduler = Executors.newSingleThreadScheduledExecutor();
 	}
 
@@ -44,7 +58,7 @@ public class RandomGhostController implements GhostController {
 			@Override
 			public void run() {
 				Random randomizer = new Random();
-				Ghost[] ghosts = level.getGhosts().toArray(new Ghost[] {});
+				Ghost[] ghosts = currentLevel.getGhosts().toArray(new Ghost[] {});
 				Ghost randomGhost = ghosts[randomizer.nextInt(ghosts.length)];
 
 				Direction[] directions = Direction.values();
@@ -57,7 +71,7 @@ public class RandomGhostController implements GhostController {
 							% directions.length];
 				}
 
-				level.move(randomGhost, randomDirection);
+				currentLevel.move(randomGhost, randomDirection);
 			}
 		}, 0, MOVE_DELAY, TimeUnit.MILLISECONDS);
 	}

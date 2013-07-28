@@ -14,20 +14,24 @@ import nl.tudelft.jpacman.model.PacMan;
  */
 public class PacManRenderer implements Renderer<PacMan> {
 
+	/**
+	 * The sprite store containing sprites for Pac-Man.
+	 */
 	private final ClassicSpriteStore sprites;
 
 	/**
 	 * Creates a new Pac-Man renderer.
 	 * 
-	 * @param sprites
+	 * @param spriteStore
 	 *            The sprite provider.
 	 */
-	public PacManRenderer(ClassicSpriteStore sprites) {
-		this.sprites = sprites;
+	public PacManRenderer(ClassicSpriteStore spriteStore) {
+		this.sprites = spriteStore;
 	}
 
 	@Override
-	public void render(PacMan pacman, Graphics g, Dimension dim) {
+	public void render(PacMan pacman, Graphics g,
+			final Dimension dim) {
 		Sprite sprite = sprites.getPacmanSprite(pacman.getDirection());
 		sprite.draw(g, 0, 0, dim.width, dim.height);
 	}

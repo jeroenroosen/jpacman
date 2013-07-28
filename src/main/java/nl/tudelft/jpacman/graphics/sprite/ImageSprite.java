@@ -14,16 +14,19 @@ import java.awt.image.BufferedImage;
  */
 public class ImageSprite implements Sprite {
 
+	/**
+	 * Internal image.
+	 */
 	private final Image image;
 
 	/**
 	 * Creates a new sprite from an image.
 	 * 
-	 * @param image
+	 * @param img
 	 *            The image to create a sprite from.
 	 */
-	public ImageSprite(Image image) {
-		this.image = image;
+	public ImageSprite(Image img) {
+		this.image = img;
 	}
 
 	@Override
@@ -45,6 +48,16 @@ public class ImageSprite implements Sprite {
 		return new ImageSprite(newImage);
 	}
 
+	/**
+	 * Creates a new, empty image of the given width and height. Its
+	 * transparency will be a bitmask, so no try ARGB image.
+	 * 
+	 * @param width
+	 *            The width of the new image.
+	 * @param height
+	 *            The height of the new image.
+	 * @return The new, empty image.
+	 */
 	private BufferedImage newImage(int width, int height) {
 		GraphicsConfiguration gc = GraphicsEnvironment
 				.getLocalGraphicsEnvironment().getDefaultScreenDevice()

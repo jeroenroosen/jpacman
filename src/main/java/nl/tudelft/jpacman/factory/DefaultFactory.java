@@ -19,7 +19,8 @@ import nl.tudelft.jpacman.model.WallSquare;
  * 
  * @author Jeroen Roosen
  */
-public class DefaultFactory implements BoardFactory, LevelFactory, CharacterFactory {
+public class DefaultFactory implements BoardFactory, LevelFactory,
+		CharacterFactory {
 
 	@Override
 	public Board createBoard(Square[][] squares) {

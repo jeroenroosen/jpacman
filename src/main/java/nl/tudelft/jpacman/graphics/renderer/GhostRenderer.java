@@ -14,16 +14,19 @@ import nl.tudelft.jpacman.model.Ghost;
  */
 public class GhostRenderer implements Renderer<Ghost> {
 
+	/**
+	 * The sprite store containing sprites for the different ghosts.
+	 */
 	private final ClassicSpriteStore sprites;
 
 	/**
 	 * Creates a new ghost renderer.
 	 * 
-	 * @param sprites
+	 * @param spriteStore
 	 *            The sprite provider.
 	 */
-	public GhostRenderer(ClassicSpriteStore sprites) {
-		this.sprites = sprites;
+	public GhostRenderer(ClassicSpriteStore spriteStore) {
+		this.sprites = spriteStore;
 	}
 
 	@Override

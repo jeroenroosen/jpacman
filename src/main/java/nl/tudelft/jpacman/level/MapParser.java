@@ -27,20 +27,70 @@ import nl.tudelft.jpacman.model.Square;
  */
 public class MapParser {
 
+	/**
+	 * The order in which Ghosts are created.
+	 */
 	private static final GhostColour[] GHOST_ORDER = { GhostColour.RED,
 			GhostColour.PINK, GhostColour.CYAN, GhostColour.ORANGE };
+
+	/**
+	 * The default direction characters are facing.
+	 */
 	private static final Direction DEFAULT_DIRECTION = Direction.WEST;
+
+	/**
+	 * The char for an empty square.
+	 */
 	private static final char EMPTY_SQUARE = ' ';
+
+	/**
+	 * The char for a square with a wall.
+	 */
 	private static final char WALL = '#';
+
+	/**
+	 * The char for a Pac-Man.
+	 */
 	private static final char PACMAN = 'P';
+
+	/**
+	 * The char for a pellet.
+	 */
 	private static final char PELLET = '.';
+
+	/**
+	 * The char for a ghost.
+	 */
 	private static final char GHOST = 'G';
 
+	/**
+	 * The factory that will create the board.
+	 */
 	private final BoardFactory boardFactory;
+
+	/**
+	 * The factory that will create the level.
+	 */
 	private final LevelFactory levelFactory;
+
+	/**
+	 * The factory that will create the characters.
+	 */
 	private final CharacterFactory characterFactory;
+
+	/**
+	 * The current ghost index.
+	 */
 	private int ghostIndex;
 
+	/**
+	 * Creates a new map parser that will use the provided factories to create
+	 * {@link Level}s.
+	 * 
+	 * @param levelFactory
+	 * @param boardFactory
+	 * @param characterFactory
+	 */
 	public MapParser(LevelFactory levelFactory, BoardFactory boardFactory,
 			CharacterFactory characterFactory) {
 		this.levelFactory = levelFactory;
@@ -77,14 +127,21 @@ public class MapParser {
 		}
 		Board board = boardFactory.createBoard(grid);
 		connectGraph(board);
-		
+
 		return builder.withBoard(board).build(levelFactory);
 	}
-	
+
+	/**
+	 * Connects the squares on the board to each other, creating a connected
+	 * graph of squares.
+	 * 
+	 * @param board
+	 *            The board to connect.
+	 */
 	private void connectGraph(Board board) {
 		int w = board.getWidth();
 		int h = board.getHeight();
-		
+
 		for (int x = 0; x < w; x++) {
 			for (int y = 0; y < h; y++) {
 				Square node = board.getSquareAt(x, y);
@@ -95,19 +152,54 @@ public class MapParser {
 			}
 		}
 	}
-	
+
+	/**
+	 * Determines and returns the square touching the square at [x,y] in the
+	 * given direction as seen from the square at [x,y]. Keep in mind that the
+	 * board's edges are connected to their opposite sides, so the left-most
+	 * square is connected to the right-most square and vice-versa, same for the
+	 * vertical edges.
+	 * 
+	 * @param x
+	 *            The x position of the square.
+	 * @param y
+	 *            The y position of the square.
+	 * @param board
+	 *            The board the square is on.
+	 * @param d
+	 *            The direction to look in.
+	 * @return The adjacent square in the direction as seen from the square at
+	 *         [x,y].
+	 */
 	private Square relativeSquare(int x, int y, Board board, Direction d) {
 		int w = board.getWidth();
 		int h = board.getHeight();
-		
+
 		int newX = (w + x + d.getDeltaX()) % w;
 		int newY = (h + y + d.getDeltaY()) % h;
-		
+
 		return board.getSquareAt(newX, newY);
 	}
 
+	/**
+	 * Enforces that a row has the same amount of elements as the width of the
+	 * board and that the board has at least 1 column.
+	 * 
+	 * @param width
+	 *            The desired amount of elements.
+	 * @param y
+	 *            The y position of this row.
+	 * @param row
+	 *            The row to check.
+	 * @throws MapParserException
+	 *             When the row did not have the correct amount of elements or
+	 *             the given width is 0 or less.
+	 */
 	private void enforceWidth(int width, int y, char[] row)
 			throws MapParserException {
+		if (width <= 0) {
+			throw new MapParserException("Board should have at least 1 column.");
+		}
 		if (row.length != width) {
 			throw new MapParserException(
 					"Encountered a row with an unexpected amount of cells at row "
@@ -115,21 +207,38 @@ public class MapParser {
 		}
 	}
 
+	/**
+	 * Enforces that a board has at least a single row.
+	 * 
+	 * @param height
+	 *            The height of the board.
+	 * @throws MapParserException
+	 *             If the board doesn't have at least a single row.
+	 */
 	private void enforceHeight(int height) throws MapParserException {
 		if (height == 0) {
 			throw new MapParserException(
-					"Unable to create a level for an empty map.");
+					"Unable to create a level for an empty map (no columns).");
 		}
 	}
 
+	/**
+	 * @return The board factory used by this parser.
+	 */
 	protected BoardFactory getBoardFactory() {
 		return boardFactory;
 	}
 
+	/**
+	 * @return The level factory used by this parser.
+	 */
 	protected LevelFactory getLevelFactory() {
 		return levelFactory;
 	}
 
+	/**
+	 * @return The character factory used by this parser.
+	 */
 	protected CharacterFactory getCharacterFactory() {
 		return characterFactory;
 	}
@@ -157,7 +266,7 @@ public class MapParser {
 		case PACMAN:
 			return pacManSquare(builder);
 		case PELLET:
-			return pelletSquare(builder);
+			return pelletSquare();
 		case GHOST:
 			return ghostSquare(builder);
 		default:
@@ -165,6 +274,9 @@ public class MapParser {
 		}
 	}
 
+	/**
+	 * @return The next ghost colour.
+	 */
 	private GhostColour nextGhostColour() {
 		GhostColour colour = GHOST_ORDER[ghostIndex];
 		ghostIndex++;
@@ -172,18 +284,29 @@ public class MapParser {
 		return colour;
 	}
 
-	private Square pelletSquare(LevelBuilder builder) {
+	/**
+	 * @return A new square with a pellet on it.
+	 */
+	private Square pelletSquare() {
 		FloorSquare square = emptySquare();
 		Pellet pellet = getBoardFactory().createPellet();
 		square.setPellet(pellet);
 		return square;
 	}
 
+	/**
+	 * @return A new square with nothing on it.
+	 */
 	private FloorSquare emptySquare() {
 		FloorSquare square = getBoardFactory().createFloorSquare();
 		return square;
 	}
 
+	/**
+	 * @param builder
+	 *            The builder to link the Pac-Man.
+	 * @return A new square with a Pac-Man on it.
+	 */
 	private Square pacManSquare(LevelBuilder builder) {
 		FloorSquare square = emptySquare();
 		PacMan pacMan = getCharacterFactory().createPacMan(DEFAULT_DIRECTION);
@@ -192,6 +315,11 @@ public class MapParser {
 		return square;
 	}
 
+	/**
+	 * @param builder
+	 *            The builder to link the ghost.
+	 * @return A new square with a Ghost on it.
+	 */
 	private Square ghostSquare(LevelBuilder builder) {
 		FloorSquare square = emptySquare();
 		Ghost ghost = characterFactory.createGhost(nextGhostColour(),
@@ -233,8 +361,11 @@ public class MapParser {
 	 * 
 	 * @author Jeroen Roosen
 	 */
-	public class MapParserException extends Exception {
+	public static class MapParserException extends Exception {
 
+		/**
+		 * Generated SVUID.
+		 */
 		private static final long serialVersionUID = -2031847716998937467L;
 
 		/**
@@ -268,8 +399,19 @@ public class MapParser {
 	 */
 	protected class LevelBuilder {
 
+		/**
+		 * The Pac-Mans on the board.
+		 */
 		private Collection<PacMan> pacMans;
+
+		/**
+		 * The ghosts on the board.
+		 */
 		private Collection<Ghost> ghosts;
+
+		/**
+		 * The board.
+		 */
 		private Board board;
 
 		/**
@@ -311,14 +453,14 @@ public class MapParser {
 		/**
 		 * Sets the board for this level.
 		 * 
-		 * @param board
+		 * @param levelBoard
 		 *            The board to set for this Level.
 		 * @return The builder for fluency.
 		 */
-		protected LevelBuilder withBoard(Board board) {
-			assert board != null;
+		protected LevelBuilder withBoard(Board levelBoard) {
+			assert levelBoard != null;
 
-			this.board = board;
+			this.board = levelBoard;
 			return this;
 		}
 

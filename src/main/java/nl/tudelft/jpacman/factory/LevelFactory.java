@@ -19,7 +19,7 @@ public interface LevelFactory {
 	 * 
 	 * @param board
 	 *            The board.
-	 * @param pacMan
+	 * @param pacMans
 	 *            The Pac-Mans on the board.
 	 * @param ghosts
 	 *            The ghosts on the board.

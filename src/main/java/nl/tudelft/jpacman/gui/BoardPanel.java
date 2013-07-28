@@ -16,26 +16,40 @@ import nl.tudelft.jpacman.model.Board;
  */
 public class BoardPanel extends JPanel {
 
+	/**
+	 * Generated SVUID.
+	 */
 	private static final long serialVersionUID = -589935291636596023L;
 
+	/**
+	 * Default tile size in pixels. This will determine the initial size of the
+	 * panel based on the level displayed.
+	 */
 	private static final int DEFAULT_TILE_SIZE = 16;
 
+	/**
+	 * The board to display.
+	 */
 	private final Board board;
+
+	/**
+	 * The renderer to render the board with.
+	 */
 	private final Renderer<Board> renderer;
 
 	/**
 	 * Creates a new BoardPanel that will display the board using the renderer.
 	 * 
-	 * @param board
+	 * @param theBoard
 	 *            The board to show.
 	 * @param renderer
 	 *            The renderer.
 	 */
-	public BoardPanel(Board board, Renderer<Board> renderer) {
-		this.board = board;
+	public BoardPanel(Board theBoard, Renderer<Board> renderer) {
+		this.board = theBoard;
 		this.renderer = renderer;
-		Dimension initSize = new Dimension(board.getWidth()
-				* DEFAULT_TILE_SIZE, board.getHeight() * DEFAULT_TILE_SIZE);
+		Dimension initSize = new Dimension(theBoard.getWidth()
+				* DEFAULT_TILE_SIZE, theBoard.getHeight() * DEFAULT_TILE_SIZE);
 		this.setPreferredSize(initSize);
 		this.setMinimumSize(initSize);
 	}

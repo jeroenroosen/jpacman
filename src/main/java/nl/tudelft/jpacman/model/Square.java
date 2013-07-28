@@ -1,8 +1,6 @@
 package nl.tudelft.jpacman.model;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -18,16 +16,26 @@ import java.util.Set;
  */
 public abstract class Square {
 
-	private final Deque<Character> occupants;
+	/**
+	 * The queue of occupants that come and go.
+	 */
+	private final List<Character> occupants;
+	
+	/**
+	 * The adjacted squares.
+	 */
 	private final Map<Direction, Square> edges;
 
+	/**
+	 * The pellet, or <code>null</code> if no pellet is present.
+	 */
 	private Pellet pellet;
 
 	/**
 	 * Creates a new, empty square.
 	 */
 	public Square() {
-		this.occupants = new ArrayDeque<>();
+		this.occupants = new ArrayList<>();
 		this.edges = new HashMap<>();
 	}
 
@@ -106,7 +114,7 @@ public abstract class Square {
 	 */
 	public void addOccupant(Character occupant) {
 		assert occupant != null;
-		occupants.addLast(occupant);
+		occupants.add(occupant);
 	}
 
 	/**

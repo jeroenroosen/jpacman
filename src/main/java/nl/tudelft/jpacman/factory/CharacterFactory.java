@@ -1,6 +1,5 @@
 package nl.tudelft.jpacman.factory;
 
-import nl.tudelft.jpacman.model.Character;
 import nl.tudelft.jpacman.model.Direction;
 import nl.tudelft.jpacman.model.Ghost;
 import nl.tudelft.jpacman.model.GhostColour;

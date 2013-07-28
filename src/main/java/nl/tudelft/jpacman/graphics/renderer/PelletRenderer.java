@@ -13,16 +13,19 @@ import nl.tudelft.jpacman.model.Pellet;
  */
 public class PelletRenderer implements Renderer<Pellet> {
 
+	/**
+	 * Sprite store containing sprites for pellets.
+	 */
 	private final ClassicSpriteStore sprites;
 
 	/**
 	 * Creates a new pellet renderer.
 	 * 
-	 * @param sprites
+	 * @param spriteStore
 	 *            The sprite provider.
 	 */
-	public PelletRenderer(ClassicSpriteStore sprites) {
-		this.sprites = sprites;
+	public PelletRenderer(ClassicSpriteStore spriteStore) {
+		this.sprites = spriteStore;
 	}
 
 	@Override

@@ -7,7 +7,14 @@ package nl.tudelft.jpacman.model;
  */
 public abstract class Character {
 
-	private Direction direction;
+	/**
+	 * The direction this character is facing.
+	 */
+	private Direction dir;
+	
+	/**
+	 * The square this character is occupying.
+	 */
 	private Square square;
 
 	/**
@@ -17,7 +24,7 @@ public abstract class Character {
 	 *            The initial direction this character is facing.
 	 */
 	public Character(Direction direction) {
-		this.direction = direction;
+		this.dir = direction;
 		assert invariant();
 	}
 
@@ -37,7 +44,7 @@ public abstract class Character {
 	 * @return The direction this character is facing.
 	 */
 	public Direction getDirection() {
-		return direction;
+		return dir;
 	}
 
 	/**
@@ -47,7 +54,7 @@ public abstract class Character {
 	 *            The new direction this character is facing.
 	 */
 	public void setDirection(Direction direction) {
-		this.direction = direction;
+		this.dir = direction;
 	}
 
 	/**

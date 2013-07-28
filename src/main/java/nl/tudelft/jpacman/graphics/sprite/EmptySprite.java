@@ -3,7 +3,8 @@ package nl.tudelft.jpacman.graphics.sprite;
 import java.awt.Graphics;
 
 /**
- * Empty Sprite which does not contain any data. When this sprite is drawn, nothing happens.
+ * Empty Sprite which does not contain any data. When this sprite is drawn,
+ * nothing happens.
  * 
  * @author Jeroen Roosen
  */

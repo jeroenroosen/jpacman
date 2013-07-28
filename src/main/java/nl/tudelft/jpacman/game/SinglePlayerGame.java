@@ -21,6 +21,9 @@ import nl.tudelft.jpacman.model.PacMan;
  */
 public class SinglePlayerGame extends Game {
 
+	/**
+	 * The Pac-Man that is being controlled by this game.
+	 */
 	private final PacMan pacMan;
 
 	/**
@@ -28,6 +31,8 @@ public class SinglePlayerGame extends Game {
 	 * 
 	 * @param level
 	 *            A level with at least 1 Pac-Man on the board.
+	 * @param ghostController
+	 *            The controller that moves the ghosts around.
 	 */
 	public SinglePlayerGame(Level level, GhostController ghostController) {
 		super(level, ghostController);

@@ -7,6 +7,9 @@ package nl.tudelft.jpacman.model;
  */
 public class PacMan extends Character {
 
+	/**
+	 * <code>true</code> iff Pac-Man is currently alive.
+	 */
 	private boolean alive;
 
 	/**
@@ -33,11 +36,11 @@ public class PacMan extends Character {
 	/**
 	 * Sets the <code>alive</code> flag for this Pac-Man.
 	 * 
-	 * @param alive
+	 * @param isAlive
 	 *            <code>true</code> if Pac-Man is alive, or <code>false</code>
 	 *            if he is dead.
 	 */
-	public void setAlive(boolean alive) {
-		this.alive = alive;
+	public void setAlive(boolean isAlive) {
+		this.alive = isAlive;
 	}
 }

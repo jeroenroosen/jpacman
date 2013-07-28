@@ -20,6 +20,9 @@ import nl.tudelft.jpacman.model.Board;
  */
 public class ClassicBoardRenderer implements Renderer<Board> {
 
+	/**
+	 * The renderers proxy that will be used to render the various elements.
+	 */
 	private final Renderers renderers;
 
 	/**
@@ -43,9 +46,8 @@ public class ClassicBoardRenderer implements Renderer<Board> {
 		assert board != null;
 		assert g != null;
 		assert dim != null;
-		
-		Graphics drawArea = g.create(0, 0, dim.width,
-				dim.height);
+
+		Graphics drawArea = g.create(0, 0, dim.width, dim.height);
 
 		int cellWidth = dim.width / board.getWidth();
 		int cellHeight = dim.height / board.getHeight();
@@ -55,51 +57,13 @@ public class ClassicBoardRenderer implements Renderer<Board> {
 				// Square square = board.getSquareAt(x, y);
 				// renderSquare(drawArea, square, x * SQUARE_WIDTH, y
 				// * SQUARE_HEIGHT);
-				Graphics subGraphics = drawArea.create(x * cellWidth, y * cellHeight, cellWidth,
-						cellHeight);
-				renderers.render(board.getSquareAt(x, y), subGraphics, new Dimension(cellWidth, cellHeight));
+				Graphics subGraphics = drawArea.create(x * cellWidth, y
+						* cellHeight, cellWidth, cellHeight);
+				renderers.render(board.getSquareAt(x, y), subGraphics,
+						new Dimension(cellWidth, cellHeight));
 				subGraphics.dispose();
 			}
 		}
 		drawArea.dispose();
 	}
-
-//	private void renderSquare(Graphics g, Square square, int x, int y) {
-//		assert square != null;
-//
-//		if (square instanceof WallSquare) {
-//			spriteStore.getWallSprite().draw(g, x, y, SQUARE_WIDTH,
-//					SQUARE_HEIGHT);
-//		} else if (square instanceof FloorSquare) {
-//			spriteStore.getFloorSprite().draw(g, x, y, SQUARE_WIDTH,
-//					SQUARE_HEIGHT);
-//			FloorSquare s = (FloorSquare) square;
-//			Pellet pellet = s.getPellet();
-//			renderPellet(g, pellet, x, y);
-//			renderSquareOccupant(g, s.getTopLevelOccupant(), x, y);
-//		}
-//	}
-//
-//	private void renderSquareOccupant(Graphics g, Character occupant, int x,
-//			int y) {
-//		if (occupant != null) {
-//			if (occupant instanceof PacMan && ((PacMan) occupant).isAlive()) {
-//				spriteStore.getPacmanSprite(occupant.getDirection()).draw(g, x,
-//						y, SQUARE_WIDTH, SQUARE_HEIGHT);
-//			} else if (occupant instanceof Ghost) {
-//				Ghost ghost = (Ghost) occupant;
-//				spriteStore.getGhostSprite(ghost.getColour(),
-//						ghost.getDirection()).draw(g, x, y, SQUARE_WIDTH,
-//						SQUARE_HEIGHT);
-//			}
-//		}
-//	}
-//
-//	private void renderPellet(Graphics g, Pellet pellet, int x, int y) {
-//		if (pellet != null) {
-//			spriteStore.getPelletSprite().draw(g, x, y, SQUARE_WIDTH,
-//					SQUARE_HEIGHT);
-//		}
-//	}
-
 }

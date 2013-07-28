@@ -7,6 +7,9 @@ package nl.tudelft.jpacman.model;
  */
 public class Ghost extends Character {
 
+	/**
+	 * The colour of the ghost.
+	 */
 	private final GhostColour colour;
 
 	/**

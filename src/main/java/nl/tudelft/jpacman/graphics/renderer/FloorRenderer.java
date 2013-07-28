@@ -16,11 +16,16 @@ import nl.tudelft.jpacman.model.Pellet;
  */
 public class FloorRenderer implements Renderer<FloorSquare> {
 
+	/**
+	 * Renderers proxy that will be used to render the various elements.
+	 */
 	private final Renderers renderers;
 
 	/**
 	 * Creates a new floor square renderer.
-	 * @param subRenderers The sub-renderers to render the contents of this square.
+	 * 
+	 * @param subRenderers
+	 *            The sub-renderers to render the contents of this square.
 	 */
 	public FloorRenderer(Renderers subRenderers) {
 		this.renderers = subRenderers;
@@ -31,7 +36,7 @@ public class FloorRenderer implements Renderer<FloorSquare> {
 		assert square != null;
 		assert g != null;
 		assert dim != null;
-		
+
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, dim.width, dim.height);
 

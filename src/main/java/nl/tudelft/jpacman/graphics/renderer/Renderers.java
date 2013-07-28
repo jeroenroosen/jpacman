@@ -13,6 +13,9 @@ import java.util.Map;
  */
 public class Renderers {
 
+	/**
+	 * The repository of renderers for each class.
+	 */
 	private final Map<Class<?>, Renderer<?>> renderers = new HashMap<>();
 
 	/**
@@ -28,15 +31,24 @@ public class Renderers {
 	 * 
 	 * @see Renderer#render(Object, Graphics, Dimension)
 	 */
-	public <T> void render(T subject, Graphics g, Dimension dim) {
+	public final <T> void render(T subject, Graphics g,
+			final Dimension dimension) {
 		assert subject != null;
 		assert g != null;
-		assert dim != null;
+		assert dimension != null;
 
 		Renderer<T> renderer = getRendererFor(subject);
-		renderer.render(subject, g, dim);
+		renderer.render(subject, g, dimension);
 	}
 
+	/**
+	 * Retrieves the renderer for the type of the presented subject or throws a
+	 * {@link MissingRendererException} when no renderer was registered.
+	 * 
+	 * @param subject
+	 *            The subject to retrieve the renderer for.
+	 * @return The renderer registered for the given subject's type.
+	 */
 	@SuppressWarnings("unchecked")
 	private <T> Renderer<T> getRendererFor(T subject) {
 		Renderer<T> renderer = (Renderer<T>) renderers.get(subject.getClass());
@@ -66,6 +78,9 @@ public class Renderers {
 	 */
 	public static class MissingRendererException extends RuntimeException {
 
+		/**
+		 * Generated SVUID.
+		 */
 		private static final long serialVersionUID = 6699942784097151097L;
 
 		/**
