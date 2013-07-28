@@ -7,7 +7,7 @@ import nl.tudelft.jpacman.model.Direction;
 import nl.tudelft.jpacman.model.PacMan;
 
 /**
- * A game with a single Pac-Man.
+ * A {@link Game} with a single Pac-Man.
  * 
  * <ul>
  * Offers high level methods to manipulate the game:

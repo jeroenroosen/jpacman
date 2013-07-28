@@ -108,24 +108,35 @@ public class Level {
 		character.setDirection(direction);
 		character.occupy(destination);
 
+		handlePellet(character, destination);
+		handleCollisions(destination);
+	}
+
+	private void handlePellet(Character character, Square destination) {
 		if (isPacMan(character)) {
 			consumePellet(destination);
 		}
-		
-		boolean p = false;
-		boolean g = false;
+	}
+
+	private void handleCollisions(Square destination) {
+		boolean pacManPresent = false;
+		boolean ghostPresent = false;
 		for (Character c : destination.getOccupants()) {
 			if (isPacMan(c)) {
-				p = true;
+				pacManPresent = true;
 			}
 			if (c instanceof Ghost) {
-				g = true;
+				ghostPresent = true;
 			}
-			if (p && g) {
+			if (pacManPresent && ghostPresent) {
 				PacMan pac = (PacMan) c;
-				pac.setAlive(false);
+				killPacMan(pac);
 			}
 		}
+	}
+
+	private void killPacMan(PacMan pac) {
+		pac.setAlive(false);
 	}
 
 	private void consumePellet(Square destination) {

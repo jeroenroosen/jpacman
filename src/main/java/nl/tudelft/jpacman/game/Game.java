@@ -69,15 +69,6 @@ public class Game {
 	}
 
 	/**
-	 * Returns whether or not the game is lost.
-	 * 
-	 * @return <code>true</code> iff no Pac-Mans remain on the board.
-	 */
-	public boolean gameOver() {
-		return level.getPacMans().isEmpty();
-	}
-
-	/**
 	 * Moves the Pac-Man one square in the given direction and calculates the
 	 * new game state.
 	 * 
