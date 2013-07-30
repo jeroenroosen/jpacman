@@ -87,15 +87,17 @@ public class MapParser {
 	 * Creates a new map parser that will use the provided factories to create
 	 * {@link Level}s.
 	 * 
-	 * @param levelFactory
-	 * @param boardFactory
-	 * @param characterFactory
+	 * @param lf
+	 *            The factory that will be used to create the Level.
+	 * @param bf
+	 *            The factory that will be used to create Squares and Pellets.
+	 * @param cf
+	 *            The factory that will be used to create Pac-Mans and Ghosts.
 	 */
-	public MapParser(LevelFactory levelFactory, BoardFactory boardFactory,
-			CharacterFactory characterFactory) {
-		this.levelFactory = levelFactory;
-		this.boardFactory = boardFactory;
-		this.characterFactory = characterFactory;
+	public MapParser(LevelFactory lf, BoardFactory bf, CharacterFactory cf) {
+		this.levelFactory = lf;
+		this.boardFactory = bf;
+		this.characterFactory = cf;
 
 		this.ghostIndex = 0;
 	}

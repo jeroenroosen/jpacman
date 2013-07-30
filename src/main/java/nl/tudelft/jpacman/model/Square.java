@@ -72,12 +72,12 @@ public abstract class Square {
 	 * Sets the new pellet for this square. To remove a pellet, use
 	 * {@link #removePellet()}.
 	 * 
-	 * @param pellet
+	 * @param squarePellet
 	 *            The new pellet for this square.
 	 */
-	public void setPellet(Pellet pellet) {
-		assert pellet != null;
-		this.pellet = pellet;
+	public void setPellet(Pellet squarePellet) {
+		assert squarePellet != null;
+		this.pellet = squarePellet;
 	}
 
 	/**

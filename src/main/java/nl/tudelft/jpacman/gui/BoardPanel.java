@@ -42,12 +42,12 @@ public class BoardPanel extends JPanel {
 	 * 
 	 * @param theBoard
 	 *            The board to show.
-	 * @param renderer
+	 * @param boardRenderer
 	 *            The renderer.
 	 */
-	public BoardPanel(Board theBoard, Renderer<Board> renderer) {
+	public BoardPanel(Board theBoard, Renderer<Board> boardRenderer) {
 		this.board = theBoard;
-		this.renderer = renderer;
+		this.renderer = boardRenderer;
 		Dimension initSize = new Dimension(theBoard.getWidth()
 				* DEFAULT_TILE_SIZE, theBoard.getHeight() * DEFAULT_TILE_SIZE);
 		this.setPreferredSize(initSize);

@@ -43,16 +43,16 @@ public enum Direction {
 	/**
 	 * Creates a new Direction with the given parameters.
 	 * 
-	 * @param dx
+	 * @param deltaX
 	 *            The delta x to an element in the direction in a matrix with
 	 *            0,0 (x,y) as its topleft element.
-	 * @param dy
+	 * @param deltaY
 	 *            The delta y to an element in the direction in a matrix with
 	 *            0,0 (x,y) as its topleft element.
 	 */
-	private Direction(int dx, int dy) {
-		this.dx = dx;
-		this.dy = dy;
+	private Direction(int deltaX, int deltaY) {
+		this.dx = deltaX;
+		this.dy = deltaY;
 	}
 
 	/**

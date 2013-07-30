@@ -10,17 +10,19 @@ public class Ghost extends Character {
 	/**
 	 * The colour of the ghost.
 	 */
-	private final GhostColour colour;
+	private final GhostColour ghostColour;
 
 	/**
 	 * Creates a new Ghost.
 	 * 
 	 * @param direction
 	 *            The direction this ghost is facing from the start.
+	 * @param colour
+	 *            The colour of this ghost.
 	 */
 	public Ghost(Direction direction, GhostColour colour) {
 		super(direction);
-		this.colour = colour;
+		this.ghostColour = colour;
 	}
 
 	/**
@@ -29,7 +31,7 @@ public class Ghost extends Character {
 	 * @return The colour of this ghost.
 	 */
 	public GhostColour getColour() {
-		return colour;
+		return ghostColour;
 	}
 
 }
