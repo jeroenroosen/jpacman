@@ -37,6 +37,11 @@ public class Level {
 	private final Collection<Ghost> ghostCollection;
 
 	/**
+	 * Used for the synchronization of {@link #move(Character, Direction)}.
+	 */
+	private Object blocked = new Object();
+	
+	/**
 	 * Create a new level.
 	 * 
 	 * @param board
@@ -110,14 +115,16 @@ public class Level {
 	public void move(Character character, Direction direction) {
 		assert character != null;
 
-		Square square = character.getSquare();
-		Square destination = square.squareAt(direction);
-
-		character.setDirection(direction);
-		character.occupy(destination);
-
-		handlePellet(character, destination);
-		detectCollisions(destination);
+		synchronized (blocked) {
+			Square square = character.getSquare();
+			Square destination = square.squareAt(direction);
+			
+			character.setDirection(direction);
+			character.occupy(destination);
+			
+			handlePellet(character, destination);
+			detectCollisions(destination);
+		}
 	}
 
 	/**
@@ -129,7 +136,7 @@ public class Level {
 	 * @param destination
 	 *            The square that may or may not contain a pellet.
 	 */
-	private void handlePellet(Character character, Square destination) {
+	protected void handlePellet(Character character, Square destination) {
 		if (isPacMan(character)) {
 			Pellet pellet = destination.getPellet();
 			if (pellet != null) {
