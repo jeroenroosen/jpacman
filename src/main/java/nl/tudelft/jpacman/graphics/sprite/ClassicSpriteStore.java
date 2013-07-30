@@ -66,6 +66,21 @@ public class ClassicSpriteStore extends SpriteStore {
 				PACMAN_ANIMATION_FRAMES);
 	}
 
+	public Sprite getDeadPacManSprite() {
+		String resource = "/sprite/dead.png";
+		Sprite deadSprite = cache.get(resource);
+		
+		if (deadSprite == null) {
+			Sprite baseImage = loadSprite(resource);
+			AnimatedSprite animation = createAnimatedSprite(baseImage, 11, ANIMATION_DELAY, false);
+			animation.setAnimating(true);
+			cache.put(resource, animation);
+			deadSprite = animation;
+		}
+		
+		return deadSprite;
+	}
+	
 	/**
 	 * Returns a cached or new animated sprite for a given direction.
 	 * 
