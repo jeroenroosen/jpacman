@@ -22,6 +22,11 @@ import nl.tudelft.jpacman.model.WallSquare;
 public class DefaultFactory implements BoardFactory, LevelFactory,
 		CharacterFactory {
 
+	/**
+	 * The default amount of points a {@link Pellet} is worth.
+	 */
+	private static final int PELLET_VALUE = 10;
+
 	@Override
 	public Board createBoard(Square[][] squares) {
 		return new DefaultBoard(squares);
@@ -55,6 +60,6 @@ public class DefaultFactory implements BoardFactory, LevelFactory,
 
 	@Override
 	public Pellet createPellet() {
-		return new Pellet();
+		return new Pellet(PELLET_VALUE);
 	}
 }

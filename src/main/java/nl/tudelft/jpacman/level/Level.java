@@ -1,6 +1,8 @@
 package nl.tudelft.jpacman.level;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import nl.tudelft.jpacman.model.Board;
 import nl.tudelft.jpacman.model.Character;
@@ -115,7 +117,7 @@ public class Level {
 		character.occupy(destination);
 
 		handlePellet(character, destination);
-		handleCollisions(destination);
+		detectCollisions(destination);
 	}
 
 	/**
@@ -132,6 +134,8 @@ public class Level {
 			Pellet pellet = destination.getPellet();
 			if (pellet != null) {
 				destination.removePellet();
+				PacMan pac = (PacMan) character;
+				pac.addPoints(pellet.getValue());
 			}
 		}
 	}
@@ -142,31 +146,48 @@ public class Level {
 	 * @param destination
 	 *            The square to check for collisions.
 	 */
-	private void handleCollisions(Square destination) {
-		boolean pacManPresent = false;
-		boolean ghostPresent = false;
+	private void detectCollisions(Square destination) {
+		List<PacMan> pacs = new ArrayList<>();
+		List<Ghost> ghosts = new ArrayList<>();
+
 		for (Character c : destination.getOccupants()) {
-			if (isPacMan(c)) {
-				pacManPresent = true;
+			if (c instanceof PacMan) {
+				pacs.add((PacMan) c);
 			}
 			if (c instanceof Ghost) {
-				ghostPresent = true;
+				ghosts.add((Ghost) c);
 			}
-			if (pacManPresent && ghostPresent) {
-				PacMan pac = (PacMan) c;
-				killPacMan(pac);
+		}
+
+		handleCollisions(pacs, ghosts);
+	}
+
+	/**
+	 * Handles the collisions of Pac-Man(s) and Ghosts.
+	 * 
+	 * @param pacMans
+	 *            The Pac-Mans occupying the square.
+	 * @param ghosts
+	 *            The ghosts occupying the square.
+	 */
+	private void handleCollisions(List<PacMan> pacMans, List<Ghost> ghosts) {
+		for (PacMan p : pacMans) {
+			for (Ghost g : ghosts) {
+				collide(p, g);
 			}
 		}
 	}
 
 	/**
-	 * Kills Pac-Man.
+	 * Handles the collision of a Pac-Man and a ghost.
 	 * 
-	 * @param pac
-	 *            The Pac-Man to kill.
+	 * @param pacMan
+	 *            The Pac-Man colliding with the Ghost.
+	 * @param ghost
+	 *            The Ghost colliding with the Pac-Man.
 	 */
-	private void killPacMan(PacMan pac) {
-		pac.setAlive(false);
+	protected void collide(PacMan pacMan, Ghost ghost) {
+		pacMan.setAlive(false);
 	}
 
 	/**
