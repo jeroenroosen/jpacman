@@ -53,6 +53,7 @@ public class RandomGhostController implements GhostController {
 
 	@Override
 	public void start() {
+		stop();
 		task = scheduler.scheduleAtFixedRate(new Runnable() {
 
 			@Override
@@ -76,8 +77,14 @@ public class RandomGhostController implements GhostController {
 		}, 0, MOVE_DELAY, TimeUnit.MILLISECONDS);
 	}
 
+	private boolean stopped() {
+		return task == null || task.isCancelled() || task.isDone();
+	}
+
 	@Override
 	public void stop() {
-		task.cancel(false);
+		if (!stopped()) {
+			task.cancel(true);
+		}
 	}
 }
