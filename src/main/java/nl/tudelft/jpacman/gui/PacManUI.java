@@ -1,5 +1,7 @@
 package nl.tudelft.jpacman.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
@@ -33,10 +35,13 @@ public class PacManUI extends JFrame {
 	 * 
 	 * @param gamePanel
 	 *            The {@link GamePanel} to show.
+	 * @param buttonPanel
+	 *            The button panel to put at the bottom of the GUI.
 	 * @param keyListener
 	 *            The {@link KeyListener} to process key events.
 	 */
-	public PacManUI(GamePanel gamePanel, KeyListener keyListener) {
+	public PacManUI(GamePanel gamePanel, ButtonPanel buttonPanel,
+			KeyListener keyListener) {
 		super("JPacMan");
 		this.displayPanel = gamePanel;
 
@@ -44,11 +49,20 @@ public class PacManUI extends JFrame {
 
 		addKeyListener(keyListener);
 		setFocusTraversalKeysEnabled(false);
+		requestFocusInWindow();
 
-		getContentPane().add(displayPanel);
+		Container contentPanel = getContentPane();
+		contentPanel.setLayout(new BorderLayout());
+		contentPanel.add(displayPanel, BorderLayout.CENTER);
+		contentPanel.add(buttonPanel, BorderLayout.SOUTH);
+		
+		buttonPanel.setParentWindow(this);
+
 		setVisible(true);
 		pack();
 
+		requestFocusInWindow();
+		
 		run();
 	}
 

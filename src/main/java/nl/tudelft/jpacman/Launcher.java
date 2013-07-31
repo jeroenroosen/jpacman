@@ -1,9 +1,15 @@
 package nl.tudelft.jpacman;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.beans.PropertyChangeListener;
 import java.io.InputStream;
 import java.util.ArrayList;
+
+import javax.swing.Action;
+import javax.swing.JButton;
 
 import nl.tudelft.jpacman.factory.DefaultFactory;
 import nl.tudelft.jpacman.game.GhostController;
@@ -18,8 +24,10 @@ import nl.tudelft.jpacman.graphics.renderer.Renderers;
 import nl.tudelft.jpacman.graphics.renderer.WallRenderer;
 import nl.tudelft.jpacman.graphics.sprite.ClassicSpriteStore;
 import nl.tudelft.jpacman.gui.BoardPanel;
+import nl.tudelft.jpacman.gui.ButtonPanel;
 import nl.tudelft.jpacman.gui.ClassicScorePanel;
 import nl.tudelft.jpacman.gui.GamePanel;
+import nl.tudelft.jpacman.gui.PButton;
 import nl.tudelft.jpacman.gui.PacManUI;
 import nl.tudelft.jpacman.gui.ScorePanel;
 import nl.tudelft.jpacman.level.Level;
@@ -89,6 +97,7 @@ public class Launcher {
 
 				switch (e.getKeyCode()) {
 				case KeyEvent.VK_UP:
+					System.out.println("up");
 					game.up();
 					break;
 
@@ -103,6 +112,7 @@ public class Launcher {
 				case KeyEvent.VK_RIGHT:
 					game.right();
 					break;
+					
 				default:
 					// do nothing
 					break;
@@ -110,9 +120,30 @@ public class Launcher {
 
 			}
 		};
+		
+		
 
-		game.start();
-		new PacManUI(gamePanel, keyListener);
+		final PButton startButton = new PButton("Start");
+		startButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game.start();
+			}
+		});
+		startButton.requestFocusInWindow();
+		
+		PButton stopButton = new PButton("Stop");
+		stopButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game.stop();
+			}
+		});
+		
+		ButtonPanel buttonPanel = new ButtonPanel(startButton, stopButton);
+		new PacManUI(gamePanel, buttonPanel, keyListener);
 	}
 
 }
