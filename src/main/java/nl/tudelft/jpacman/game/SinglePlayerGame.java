@@ -22,6 +22,11 @@ import nl.tudelft.jpacman.model.PacMan;
 public class SinglePlayerGame extends Game {
 
 	/**
+	 * The level being played.
+	 */
+	private final Level currentLevel;
+	
+	/**
 	 * The Pac-Man that is being controlled by this game.
 	 */
 	private final PacMan pacMan;
@@ -35,10 +40,11 @@ public class SinglePlayerGame extends Game {
 	 *            The controller that moves the ghosts around.
 	 */
 	public SinglePlayerGame(Level level, GhostController ghostController) {
-		super(level, ghostController);
+		super(ghostController);
 		Collection<PacMan> pacMans = level.getPacMans();
 		assert pacMans.size() == 1;
 		pacMan = pacMans.iterator().next();
+		this.currentLevel = level;
 	}
 
 	/**
@@ -67,6 +73,11 @@ public class SinglePlayerGame extends Game {
 	 */
 	public void right() {
 		movePacMan(pacMan, Direction.EAST);
+	}
+
+	@Override
+	public Level getCurrentLevel() {
+		return currentLevel;
 	}
 
 }

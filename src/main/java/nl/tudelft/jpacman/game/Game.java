@@ -10,12 +10,7 @@ import nl.tudelft.jpacman.model.PacMan;
  * 
  * @author Jeroen Roosen
  */
-public class Game {
-
-	/**
-	 * The level that will be played during this level.
-	 */
-	private final Level currentLevel;
+public abstract class Game {
 
 	/**
 	 * The controller that manages the ghosts' movements.
@@ -30,16 +25,12 @@ public class Game {
 	/**
 	 * Create a new game.
 	 * 
-	 * @param level
-	 *            The level for this game.
 	 * @param ghostController
 	 *            The controller moving the ghosts on the level around.
 	 */
-	public Game(Level level, GhostController ghostController) {
-		assert level != null;
+	public Game(GhostController ghostController) {
 		assert ghostController != null;
 
-		this.currentLevel = level;
 		this.ghostAI = ghostController;
 		this.inProgress = false;
 	}
@@ -58,15 +49,6 @@ public class Game {
 	public void stop() {
 		ghostAI.stop();
 		inProgress = false;
-	}
-
-	/**
-	 * Returns the level currently being played.
-	 * 
-	 * @return The level being played.
-	 */
-	public Level getLevel() {
-		return currentLevel;
 	}
 
 	/**
@@ -89,11 +71,16 @@ public class Game {
 	 */
 	public void movePacMan(PacMan pacMan, Direction direction) {
 		if (isInProgress()) {
-			currentLevel.move(pacMan, direction);
+			getCurrentLevel().move(pacMan, direction);
 
-			if (currentLevel.lost() || currentLevel.completed()) {
+			if (getCurrentLevel().lost() || getCurrentLevel().completed()) {
 				stop();
 			}
 		}
 	}
+
+	/**
+	 * @return The level that is currently being played.
+	 */
+	public abstract Level getCurrentLevel();
 }
