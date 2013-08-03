@@ -3,7 +3,6 @@ package nl.tudelft.jpacman.graphics.renderer;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
-import nl.tudelft.jpacman.graphics.sprite.AnimatedSprite;
 import nl.tudelft.jpacman.graphics.sprite.ClassicSpriteStore;
 import nl.tudelft.jpacman.graphics.sprite.Sprite;
 import nl.tudelft.jpacman.model.PacMan;
