@@ -30,6 +30,11 @@ public class PacManUI extends JFrame {
 	private GamePanel displayPanel;
 
 	/**
+	 * The button panel that will not be redrawn.
+	 */
+	private ButtonPanel buttons;
+
+	/**
 	 * Creates a new PacManUI combining the {@link GamePanel} and the
 	 * {@link KeyListener} into a runnable GUI.
 	 * 
@@ -44,6 +49,7 @@ public class PacManUI extends JFrame {
 			KeyListener keyListener) {
 		super("JPacMan");
 		this.displayPanel = gamePanel;
+		this.buttons = buttonPanel;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -54,18 +60,29 @@ public class PacManUI extends JFrame {
 		Container contentPanel = getContentPane();
 		contentPanel.setLayout(new BorderLayout());
 		contentPanel.add(displayPanel, BorderLayout.CENTER);
-		contentPanel.add(buttonPanel, BorderLayout.SOUTH);
+		contentPanel.add(buttons, BorderLayout.SOUTH);
 		
-		buttonPanel.setParentWindow(this);
+		buttons.setParentWindow(this);
+	}
+	
+	/**
+	 * @return The button panel of this PacManUI.
+	 */
+	public ButtonPanel getButtonPanel() {
+		return buttons;
+	}
 
+	/**
+	 * Show and starts the UI. This will start the drawing loop and thereby block until the thread is terminated.
+	 */
+	public void start() {
 		setVisible(true);
 		pack();
 
 		requestFocusInWindow();
-		
 		run();
 	}
-
+	
 	/**
 	 * Starts the repainting job, repainting the interface at the desired frame
 	 * rate.
