@@ -3,7 +3,6 @@ package nl.tudelft.jpacman.factory;
 import java.util.List;
 
 import nl.tudelft.jpacman.game.Game;
-import nl.tudelft.jpacman.game.GhostController;
 import nl.tudelft.jpacman.game.SinglePlayerGame;
 import nl.tudelft.jpacman.level.Level;
 
@@ -15,9 +14,8 @@ import nl.tudelft.jpacman.level.Level;
 public class DefaultGameFactory implements GameFactory {
 
 	@Override
-	public Game createGame(List<Level> levels, GhostController ghostController) {
+	public Game createGame(List<Level> levels) {
 		assert levels != null;
-		assert ghostController != null;
 		
 		if (levels.size() != 1) {
 			throw new UnsupportedOperationException("This factory can only provide games that contain a single level.");
@@ -25,7 +23,7 @@ public class DefaultGameFactory implements GameFactory {
 		
 		Level level = levels.get(0);
 		
-		return new SinglePlayerGame(level, ghostController);
+		return new SinglePlayerGame(level);
 	}
 
 }

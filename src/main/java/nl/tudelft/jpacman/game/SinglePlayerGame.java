@@ -36,11 +36,9 @@ public class SinglePlayerGame extends Game {
 	 * 
 	 * @param level
 	 *            A level with at least 1 Pac-Man on the board.
-	 * @param ghostController
-	 *            The controller that moves the ghosts around.
 	 */
-	public SinglePlayerGame(Level level, GhostController ghostController) {
-		super(ghostController);
+	public SinglePlayerGame(Level level) {
+		super();
 		Collection<PacMan> pacMans = level.getPacMans();
 		assert pacMans.size() == 1;
 		pacMan = pacMans.iterator().next();
@@ -51,28 +49,28 @@ public class SinglePlayerGame extends Game {
 	 * Moves Pac-Man up 1 square.
 	 */
 	public void up() {
-		movePacMan(pacMan, Direction.NORTH);
+		move(pacMan, Direction.NORTH);
 	}
 
 	/**
 	 * Moves Pac-Man down 1 square.
 	 */
 	public void down() {
-		movePacMan(pacMan, Direction.SOUTH);
+		move(pacMan, Direction.SOUTH);
 	}
 
 	/**
 	 * Moves Pac-Man left 1 square.
 	 */
 	public void left() {
-		movePacMan(pacMan, Direction.WEST);
+		move(pacMan, Direction.WEST);
 	}
 
 	/**
 	 * Moves Pac-Man square 1 square.
 	 */
 	public void right() {
-		movePacMan(pacMan, Direction.EAST);
+		move(pacMan, Direction.EAST);
 	}
 
 	@Override

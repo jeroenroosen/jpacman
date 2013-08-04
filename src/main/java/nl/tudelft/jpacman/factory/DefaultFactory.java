@@ -2,6 +2,7 @@ package nl.tudelft.jpacman.factory;
 
 import java.util.Collection;
 
+import nl.tudelft.jpacman.ai.RandomAI;
 import nl.tudelft.jpacman.level.DefaultBoard;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.model.Board;
@@ -55,7 +56,7 @@ public class DefaultFactory implements BoardFactory, LevelFactory,
 
 	@Override
 	public Ghost createGhost(GhostColour colour, Direction direction) {
-		return new Ghost(direction, colour);
+		return new Ghost(direction, colour, new RandomAI());
 	}
 
 	@Override

@@ -1,8 +1,15 @@
 package nl.tudelft.jpacman.game;
 
+import java.util.Collection;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import nl.tudelft.jpacman.level.Level;
+import nl.tudelft.jpacman.model.Character;
 import nl.tudelft.jpacman.model.Direction;
-import nl.tudelft.jpacman.model.PacMan;
+import nl.tudelft.jpacman.model.Ghost;
+import nl.tudelft.jpacman.model.NonPlayerCharacter;
 
 /**
  * High level class that handles a complete game, i.e. the player input, Ghost
@@ -13,9 +20,9 @@ import nl.tudelft.jpacman.model.PacMan;
 public abstract class Game {
 
 	/**
-	 * The controller that manages the ghosts' movements.
+	 * The scheduler that will time the AI movements.
 	 */
-	private final GhostController ghostAI;
+	private ScheduledExecutorService scheduler;
 
 	/**
 	 * Whether this game is currently in progress.
@@ -28,10 +35,7 @@ public abstract class Game {
 	 * @param ghostController
 	 *            The controller moving the ghosts on the level around.
 	 */
-	public Game(GhostController ghostController) {
-		assert ghostController != null;
-
-		this.ghostAI = ghostController;
+	public Game() {
 		this.inProgress = false;
 	}
 
@@ -39,15 +43,16 @@ public abstract class Game {
 	 * Starts or resumes this game.
 	 */
 	public void start() {
-		ghostAI.start();
 		inProgress = true;
+		startScheduler();
+		startGhosts();
 	}
 
 	/**
 	 * Stops or pauses this game.
 	 */
 	public void stop() {
-		ghostAI.stop();
+		stopGhosts();
 		inProgress = false;
 	}
 
@@ -69,7 +74,7 @@ public abstract class Game {
 	 * @param direction
 	 *            The direction to move towards.
 	 */
-	public void movePacMan(PacMan pacMan, Direction direction) {
+	public void move(Character pacMan, Direction direction) {
 		if (isInProgress()) {
 			getCurrentLevel().move(pacMan, direction);
 
@@ -83,4 +88,80 @@ public abstract class Game {
 	 * @return The level that is currently being played.
 	 */
 	public abstract Level getCurrentLevel();
+
+	/**
+	 * (Re)starts the scheduler for the NPC movements.
+	 */
+	private void startScheduler() {
+		if (!(scheduler == null || scheduler.isShutdown() || scheduler.isTerminated())) {
+			scheduler.shutdownNow();
+		}
+		scheduler = Executors.newSingleThreadScheduledExecutor();
+	}
+	
+	/**
+	 * Starts the scheduling for the ghosts.
+	 */
+	private void startGhosts() {
+		Collection<Ghost> ghosts = getCurrentLevel().getGhosts();
+		for (Ghost g : ghosts) {
+			scheduleNpcMove(g);
+		}
+	}
+
+	/**
+	 * Stops the scheduling of ghost movements.
+	 */
+	private void stopGhosts() {
+		scheduler.shutdownNow();
+	}
+
+	/**
+	 * Schedules the next move for an NPC.
+	 * 
+	 * @param npc
+	 *            The NPC to move.
+	 */
+	private void scheduleNpcMove(NonPlayerCharacter npc) {
+		if (isInProgress()) {
+			scheduler.schedule(new ScheduledMove(npc), npc.getDelay(),
+					TimeUnit.MILLISECONDS);
+		}
+	}
+
+	/**
+	 * Scheduled task that will determine and execute the next move for an NPC.
+	 * Reschedules itself after execution.
+	 * 
+	 * @author Jeroen Roosen
+	 */
+	private class ScheduledMove implements Runnable {
+
+		/**
+		 * The NPC to move when this task is executed.
+		 */
+		private final NonPlayerCharacter subject;
+
+		/**
+		 * Create a new move task.
+		 * 
+		 * @param npc
+		 *            The NPC to move upon execution.
+		 */
+		private ScheduledMove(NonPlayerCharacter npc) {
+			this.subject = npc;
+		}
+
+		@Override
+		public void run() {
+			Direction move = subject.nextMove();
+			if (move != null) {
+				move(subject, move);
+			}
+			if (isInProgress()) {
+				scheduler.schedule(this, subject.getDelay(),
+						TimeUnit.MILLISECONDS);
+			}
+		}
+	}
 }

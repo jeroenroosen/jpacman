@@ -1,11 +1,13 @@
 package nl.tudelft.jpacman.model;
 
+import nl.tudelft.jpacman.ai.AI;
+
 /**
  * The "bad" guy of our game, the Ghost.
  * 
  * @author Jeroen Roosen
  */
-public class Ghost extends Character {
+public class Ghost extends NonPlayerCharacter {
 
 	/**
 	 * The colour of the ghost.
@@ -19,9 +21,11 @@ public class Ghost extends Character {
 	 *            The direction this ghost is facing from the start.
 	 * @param colour
 	 *            The colour of this ghost.
+	 * @param ai
+	 *            The AI that controls this NPC.
 	 */
-	public Ghost(Direction direction, GhostColour colour) {
-		super(direction);
+	public Ghost(Direction direction, GhostColour colour, AI ai) {
+		super(direction, ai);
 		this.ghostColour = colour;
 	}
 

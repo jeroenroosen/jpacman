@@ -13,8 +13,6 @@ import nl.tudelft.jpacman.factory.DefaultGameFactory;
 import nl.tudelft.jpacman.factory.GameFactory;
 import nl.tudelft.jpacman.factory.LevelFactory;
 import nl.tudelft.jpacman.game.Game;
-import nl.tudelft.jpacman.game.GhostController;
-import nl.tudelft.jpacman.game.RandomGhostController;
 import nl.tudelft.jpacman.game.SinglePlayerGame;
 import nl.tudelft.jpacman.graphics.renderer.ClassicBoardRenderer;
 import nl.tudelft.jpacman.graphics.renderer.FloorRenderer;
@@ -90,11 +88,6 @@ public class PacManGameBuilder {
 	 * The game factory to create the {@link #game}.
 	 */
 	private GameFactory gameFact;
-
-	/**
-	 * The AI controlling the ghosts for the {@link #game}.
-	 */
-	private GhostController ai;
 
 	/**
 	 * The panel containing the buttons.
@@ -184,7 +177,7 @@ public class PacManGameBuilder {
 	 */
 	private Game createGame() {
 		GameFactory factory = getGameFactory();
-		return factory.createGame(getLevels(), getGhostController());
+		return factory.createGame(getLevels());
 	}
 
 	/**
@@ -331,35 +324,6 @@ public class PacManGameBuilder {
 	 */
 	public PacManGameBuilder withGameFactory(GameFactory factory) {
 		this.gameFact = factory;
-		return this;
-	}
-
-	/**
-	 * @return The set ghost controller, or the default one if none was set.
-	 */
-	private GhostController getGhostController() {
-		if (ai == null) {
-			ai = createGhostController();
-		}
-		return ai;
-	}
-
-	/**
-	 * Creates a new {@link RandomGhostController}.
-	 * 
-	 * @return A new random ghost controller.
-	 */
-	private GhostController createGhostController() {
-		return new RandomGhostController(getLevels().get(0));
-	}
-
-	/**
-	 * Sets the AI.
-	 * 
-	 * @return The builder for fluency.
-	 */
-	public PacManGameBuilder withGhostController(GhostController controller) {
-		this.ai = controller;
 		return this;
 	}
 
